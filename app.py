@@ -1,26 +1,29 @@
 import os
 from dotenv import load_dotenv
 import streamlit as st
+
+st.set_page_config(
+    page_title="CampusPilot AI",
+    page_icon="✈️",
+    layout="wide"
+)
+
 from crewai import Agent, Task, Crew, Process, LLM
 from crewai.tools import tool
 
-# Load environment variables from .env
 load_dotenv()
 
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
-st.write("Loaded Key:", GOOGLE_API_KEY)
-
 if not GOOGLE_API_KEY:
-    st.error("GOOGLE_API_KEY not found. Please add it to your .env file.")
+    st.error("GOOGLE_API_KEY not found.")
     st.stop()
 
-
-
+os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
 # =========================================================
 # 1. APPLICATION & AUTHENTICATION PROTOCOL
 # =========================================================
-st.set_page_config(page_title="CampusPilot AI", page_icon="✈️", layout="wide")
+
 
 st.title("✈️ CampusPilot AI — Student Resolution Hub")
 st.caption("Automated Multi-Agent Assistance for University Administrative Workflows")
@@ -92,12 +95,11 @@ if st.button("Launch CampusPilot System", type="primary"):
             # UPDATE this block in app.py to match this clean LiteLLM native format:
             # UPDATE this block in app.py to force the LiteLLM routing pathway:
             
-            os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
-
             llm_engine = LLM(
                 model="gemini/gemini-2.5-flash",
+               
                 temperature=0.4
-            )
+        )
             
 
             # Agent 1: Intent Analyzer
